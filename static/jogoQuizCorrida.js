@@ -448,8 +448,8 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 
 
 
-
-	const socket = new WebSocket('ws://localhost:80');
+const socket = new WebSocket('ws://18.230.122.83:80');
+	//const socket = new WebSocket('ws://localhost:80');
 	var idplayers = document.getElementById('nPlayers');
 	function entra() {
 		document.getElementById("tela1").style.display = "none";
