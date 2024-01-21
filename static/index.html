@@ -1,35 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebSocket Chat</title>
+	<meta charset="utf-8" />
+	<title>EF_2_MAT_L2_U4_02_OD2</title>
+	<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+	<script src="./jogoQuizCorrida.js"></script>
 </head>
-<body>
-  <input type="text" id="messageInput" placeholder="Type your message">
-  <button onclick="sendMessage()">Send</button>
-  <div id="chatMessages"></div>
+<body id="EF_2_MAT_L2_U4_02_OD2" class="od ef1" lang="pt-BR">
+	<canvas id="od2" width="1280" height="720" style="width: 100%;"></canvas>
 
-  <script>
-    const socket = new WebSocket('ws://18.230.122.83:80');
+	<script>
+		var itens = [{
+			pergunta:'f1.png',
+			opcoes:['3','7','10','13','4'],
+			certa:'13'
+		},{
+			pergunta:'f2.png',
+			opcoes:['16','13','11','15','12'],
+			certa:'15'
+		},{
+			pergunta:'f3.png',
+			opcoes:['16','13','11','15','12'],
+			certa:'15'
+		},{
+			pergunta:'f4.png',
+			opcoes:['24','27','22','23','25'],
+			certa:'24'
+		},{
+			pergunta:'f5.png',
+			opcoes:['16','13','11','15','12'],
+			certa:'13'
+		},{
+			pergunta:'f6.png',
+			opcoes:['10','13','1','8','2'],
+			certa:'10'
+		},{
+			pergunta:'f7.png',
+			opcoes:['8','7','9','6','5'],
+			certa:'6'
+		}];
 
-    socket.addEventListener('message', (event) => {
-      const chatMessages = document.getElementById('chatMessages');
-      const message = document.createElement('p');
-      console.log(event.data)
-      message.textContent = event.data;
-      chatMessages.appendChild(message);
-    });
+		AppCorrida (
+			'od2', /* canvasID */
+			itens, /* _itens */
+			[140,140], /* tamanhoBt */
+			[400,580], /* margemBt */
+			[0,200], /* margemPergunta */
+			15, /* espacamento */
+			false, /* ativaTempo */
+			5000, /* _tempoPergunta */
+			70, /* tamanhoTextoBotao */
+			5, /* pontosNecessarios */
+			false /* mostraTutorial */
+		);
+	</script>
 
-    function sendMessage() {
-      const messageInput = document.getElementById('messageInput');
-      const message = messageInput.value.trim();
-
-      if (message !== '') {
-        socket.send(message);
-        messageInput.value = '';
-      }
-    }
-  </script>
 </body>
 </html>

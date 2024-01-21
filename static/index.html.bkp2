@@ -1,0 +1,37 @@
+<!-- index.html for the Smartphone Client -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Game - Smartphone Client</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+</head>
+<body>
+  <h1>Quiz Game</h1>
+  <div id="questionContainer"></div>
+  <input type="text" id="answerInput" placeholder="Your Answer">
+  <button onclick="submitAnswer()">Submit Answer</button>
+
+  <script type="module">
+    import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
+    
+    const socket = io(); // Update with your server address
+
+    socket.on('question', (question) => {
+      document.getElementById('questionContainer').innerText = question;
+    });
+
+    function submitAnswer() {
+      const answer = document.getElementById('answerInput').value;
+      const clientId = "uniqueClientId"; // You can generate a unique client ID
+      socket.emit('answer', { clientId, answer });
+    }
+
+    socket.on('updateScores', (scores) => {
+      // Update scores display on the smartphone
+      // ...
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello Bulma!</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+
+<body>
+  <section class="section" id="tela1">
+    <div class="container">
+      <h1 class="title">
+        tela1
+      </h1>
+      <p class="subtitle">
+        <button class="button" onclick="entra()">Button</button>
+      </p>
+    </div>
+  </section>
+  <section class="section" id="tela2" style="display: none;">
+    <div class="container">
+      <h1 class="title">
+        tela2
+      </h1>
+      <p class="subtitle">
+        My first website with <strong>Bulma</strong>!
+      </p>
+      <h1>Jogadores: <span id="nPlayers"></span></h1>
+      <input type="text" id="messageInput" placeholder="Type your message">
+      <button onclick="sendMessage()">Send</button>
+      <div id="chatMessages"></div>
+
+      <button class="button" onclick="responde()">resposta</button>
+    </div>
+  </section>
+
+
+  <script>
+    //const socket = new WebSocket('ws://18.230.122.83:80');
+    const socket = new WebSocket('ws://localhost:80');
+    var idplayers = document.getElementById('nPlayers');
+    function entra() {
+      document.getElementById("tela1").style.display = "none";
+      document.getElementById("tela2").style.display = "block";
+      //socket.send("jogadorpronto");
+    }
+    function responde() {
+      const message = JSON.stringify({ type: 'answer', correct: true });
+      socket.send(message);
+    }
+    // Handle initial game state
+    socket.addEventListener('message', (event) => {
+      const data = JSON.parse(event.data);
+
+      if (data.type === 'init') {
+        const playerId = data.playerId;
+        const carPositions = data.carPositions;
+        console.log("init", playerId, carPositions);
+        // Handle the initial state for the player, including car positions
+      }
+      if (data.type === 'playerJoined') {
+        const newPlayerId = data.playerId;
+        console.log("playerJoined", newPlayerId);
+        // Handle the new player joining
+      }
+      if (data.type === 'playerLeft') {
+        const playerId = data.playerId;
+        console.log("playerLeft", playerId);
+        // Handle the player leaving
+      }
+      if (data.type === 'updateCarPositions') {
+        const carPositions = data.carPositions;
+        console.log("carPositions", carPositions);
+        // Update the positions of the cars based on the received data
+      }
+      if (data.type === 'updateGameState') {
+        console.log("updateGameState");
+        // Update the game state based on data received from the server
+      }
+    });
+
+    // Handle player answers
+    function submitAnswer(answer) {
+      const message = JSON.stringify({ type: 'answer', correct: answer });
+      socket.send(message);
+    }
+
+  </script>
+</body>
+
+</html>
