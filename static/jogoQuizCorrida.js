@@ -38,6 +38,8 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		distancia = 20,
 		pistaWidth = 1280,
 		sons = ["tambor.mp3", "erro.mp3", "PARABENS.mp3", "tentenovamente.mp3"];
+	var playerName = document.getElementById("playerName").value;
+
 
 
 	function iniciaCorrida() {
@@ -103,11 +105,11 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 			frase.addChild(img);
 
 		} else {
-			var txt = new createjs.Text(_itens[count].pergunta, "42px VAG Rounded BT", "#ffffff");
+			var txt = new createjs.Text(_itens[count].pergunta, "42px Arial Black", "#ffffff");
 			txt.lineWidth = 1000;
 			txt.textAlign = "center";
 
-			var contorno = new createjs.Text(_itens[count].pergunta, "42px VAG Rounded BT", "#000000");
+			var contorno = new createjs.Text(_itens[count].pergunta, "42px Arial Black", "#000000");
 			contorno.lineWidth = 1000;
 			contorno.textAlign = "center";
 			contorno.outline = 8;
@@ -136,14 +138,9 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 
 			var extensao = _itens[count].opcoes[i].split('.').pop();
 			var bt;
-			if (extensao == 'jpg' || extensao == 'png') {
-				bt = new createjs.Bitmap(caminho + _itens[count].opcoes[i]);
-				bt.image.onload = function () { };
-				bt.tipo = "imagem";
-			} else {
-				bt = caixaTexto(_itens[count].opcoes[i]);
-				bt.tipo = "texto";
-			}
+			bt = caixaTexto(_itens[count].opcoes[i]);
+			bt.tipo = "texto";
+
 
 			perguntas.addChild(bt);
 			bt.x = -640;
@@ -205,36 +202,8 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		createjs.Tween.get(ico).to({ scaleX: 0.3, scaleY: 0.3 }, 200, createjs.Ease.quadOut);
 	}
 	function limpaSegue() {
-		/*
-		var out1;
-		var out2;
-		if (escolha == 0) {
-			out1 = 1;
-			out2 = 2;
-		} else if (escolha == 1) {
-			out1 = 0;
-			out2 = 2;
-		} else if (escolha == 2) {
-			out1 = 0;
-			out2 = 1;
-		}
-		var fracao = _itens.length;
-		var t;
-		if (acerto) {
-			t = cont_carro[escolha];
-			createjs.Tween.get(cont_carro[escolha]).to({ x: t.x + 800 / fracao }, 500, createjs.Ease.quadOut);
-			acerto = false;
-		} else {
-			t = cont_carro[out1];
-			createjs.Tween.get(t).to({ x: t.x + 800 / fracao }, 500, createjs.Ease.quadOut);
-			t = cont_carro[out2];
-			var n = Math.floor(Math.random() * 500 / fracao) + 500 / fracao;
-			createjs.Tween.get(t).to({ x: t.x + n }, 500, createjs.Ease.quadOut);
 
-		}
-		*/
-
-		const message = JSON.stringify({ type: 'answer', correct: acerto });
+		const message = JSON.stringify({ type: 'answer', correct: acerto, playerName });
 		socket.send(message);
 		acerto = false;
 
@@ -244,8 +213,12 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 			montaFase();
 		} else {
 			Fim();
-			const message = JSON.stringify({ type: 'answer', correct: "fim" });
-			socket.send(message);
+			inicio1 = false;
+			if (i_acertos >= pontosNecessarios) {
+				const message = JSON.stringify({ type: 'answer', correct: "fim", playerName });
+				socket.send(message);
+			}
+
 
 		}
 
@@ -295,7 +268,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 	}
 	function caixaTexto(texto) {
 
-		var txt = new createjs.Text(texto, tamanhoTextoBotao + "px VAG Rounded BT", "#000000");
+		var txt = new createjs.Text(texto, tamanhoTextoBotao + "px Arial", "#000000");
 		txt.textAlign = "center";
 		txt.lineWidth = tamanhoBt[0];
 
@@ -330,7 +303,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 	if (_naoembaralhar) {
 
 	} else {
-		shuffle(_itens);
+		//shuffle(_itens);
 
 	}
 	canvas = document.getElementById(canvasID);
@@ -387,6 +360,12 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		fumaca[i].y = 190;
 		fumaca[i].visible = false;
 
+		var txt = new createjs.Text("...", "22px Arial Black", "#ffffff");
+		txt.textAlign = "center";
+		txt.x = 100;
+		txt.name = "apelido";
+		cont_carro[i].addChild(txt);
+
 
 	}
 	var fundo_esc = new createjs.Bitmap(caminho + "escolha.png");
@@ -418,7 +397,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 	positivo.y = 150;
 	positivo.visible = false;
 	positivo.on("click", function () {
-		reseta();
+		//reseta();
 
 	});
 
@@ -429,7 +408,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 	tente.y = 150;
 	tente.visible = false;
 	tente.on("click", function () {
-		reseta();
+		//reseta();
 
 	});
 
@@ -448,18 +427,14 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 
 
 
-const socket = new WebSocket('ws://18.230.122.83:80');
+	const socket = new WebSocket('ws://18.230.122.83:80');
 	//const socket = new WebSocket('ws://localhost:80');
-	var idplayers = document.getElementById('nPlayers');
-	function entra() {
-		document.getElementById("tela1").style.display = "none";
-		document.getElementById("tela2").style.display = "block";
-		//socket.send("jogadorpronto");
-	}
-	function responde() {
-		const message = JSON.stringify({ type: 'answer', correct: true });
+	setTimeout(function () {
+		let message = JSON.stringify({ type: 'answer', correct: "inicio", playerName });
 		socket.send(message);
-	}
+	}, 1000)
+
+
 	// Handle initial game state
 	socket.addEventListener('message', (event) => {
 		const data = JSON.parse(event.data);
@@ -467,12 +442,20 @@ const socket = new WebSocket('ws://18.230.122.83:80');
 		if (data.type === 'init') {
 			const playerId = data.playerId;
 			const carPositions = data.carPositions;
+			const playerNames = data.playerNames;
+			console.log(`Player ${playerId} (You) has position ${carPositions[playerId]}`);
+			for (const otherPlayerId in playerNames) {
+				console.log(`Player ${otherPlayerId} is in the game: ${playerNames[otherPlayerId]}`);
+			}
+
 			escolha = playerId - 1;
 			var iconePlayer = new createjs.Bitmap(caminho + "iconeplayer.png");
 			iconePlayer.image.onload = function () { };
 			iconePlayer.x = 300;
 			iconePlayer.alpha = 0.7;
 			cont_carro[escolha].addChild(iconePlayer);
+
+
 
 			console.log("init", playerId, carPositions);
 			// Handle the initial state for the player, including car positions
@@ -482,7 +465,9 @@ const socket = new WebSocket('ws://18.230.122.83:80');
 		}
 		if (data.type === 'playerJoined') {
 			const newPlayerId = data.playerId;
-			console.log("playerJoined", newPlayerId);
+			const newPlayerName = data.playerName;
+			console.log(`Player ${newPlayerId} (${newPlayerName}) has joined the game`);
+
 			// Handle the new player joining
 			if (newPlayerId == 3) {
 				podeiniciar = true;
@@ -496,21 +481,46 @@ const socket = new WebSocket('ws://18.230.122.83:80');
 		}
 		if (data.type === 'playerLeft') {
 			const playerId = data.playerId;
-			console.log("playerLeft", playerId);
+			const leftPlayerName = data.playerName;
+			console.log(`Player ${playerId} (${leftPlayerName}) has left the game`);
+
 			reseta();
 			// Handle the player leaving
 		}
-		if (data.type === 'updateCarPositions') {
-			const carPositions = data.carPositions;
+		if (data.type === 'updateNames') {
+			const carNames = data.nomes;
 			let i = 0;
-			for (const playerId in carPositions) {
-				if (carPositions.hasOwnProperty(playerId)) {
-					const position = carPositions[playerId];
-					console.log(`Player ${playerId} has position ${position}`);
-					createjs.Tween.get(cont_carro[i]).to({ x: position }, 500, createjs.Ease.quadOut);
+			for (const playerId in carNames) {
+				if (carNames.hasOwnProperty(playerId)) {
+					const _nome = carNames[playerId];
+					console.log(`nome:`,_nome);
+					var _txt = cont_carro[i].getChildByName("apelido");
+					if (_txt) {
+						_txt.text = _nome;
+					}
 					i++;
 				}
 			}
+		}
+		if (data.type === 'updateCarPositions') {
+			const carPositions = data.carPositions;
+			const updatedPlayerName = data.playerName;
+
+			// Modify this line
+			// Update the positions of the cars based on the received data
+			console.log(`Player ${updatedPlayerName} has a new position`);
+			let i = 0;
+			if (inicio1) {
+				for (const playerId in carPositions) {
+					if (carPositions.hasOwnProperty(playerId)) {
+						const position = carPositions[playerId];
+						console.log(`Player ${playerId} has position ${position}`);
+						createjs.Tween.get(cont_carro[i]).to({ x: position }, 500, createjs.Ease.quadOut);
+						i++;
+					}
+				}
+			}
+
 			// Update the positions of the cars based on the received data
 		}
 		if (data.type === 'updateGameState') {

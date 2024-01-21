@@ -17,6 +17,11 @@ let carPositions = {
   2: 0,
   3: 0
 };
+let nomes = {
+  1: "...",
+  2: "...",
+  3: "..."
+}
 
 
 // Serve the HTML file
@@ -28,12 +33,12 @@ wss.on('connection', (socket) => {
     const playerId = playerCount;
 
     // Send initial game state to the new player
-    socket.send(JSON.stringify({ type: 'init', playerId, carPositions }));
+    socket.send(JSON.stringify({ type: 'init', playerId, carPositions, nomes }));
 
     // Broadcast to all players that a new player has joined
     wss.clients.forEach((client) => {
       if (client !== socket && client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify({ type: 'playerJoined', playerId }));
+        client.send(JSON.stringify({ type: 'playerJoined', playerId, playerName: `Player ${playerId}`, nomes }));
       }
     });
 
@@ -41,8 +46,19 @@ wss.on('connection', (socket) => {
     socket.on('message', (message) => {
       const data = JSON.parse(message);
       const correctAnswer = data.correct;
+      const playerName = data.playerName;
       console.log("correctAnswer", playerId, correctAnswer)
+      if (correctAnswer == "inicio") {
+        console.log(playerName);
+        nomes[playerId] = playerName;
+        wss.clients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type: 'updateNames', nomes }));
+          }
+        });
+        return;
 
+      }
       if (correctAnswer) {
         // Update car position for the player who answered correctly
         carPositions[playerId] += 150;
@@ -50,15 +66,15 @@ wss.on('connection', (socket) => {
         // Broadcast updated car positions to all players
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ type: 'updateCarPositions', carPositions }));
+            client.send(JSON.stringify({ type: 'updateCarPositions', carPositions, playerName, nomes }));
           }
         });
       }
       if (correctAnswer == "fim") {
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
-            let msg="fim";
-            client.send(JSON.stringify({ type: 'updateGameState', msg }));
+            let msg = "fim";
+            client.send(JSON.stringify({ type: 'updateGameState', msg, playerName }));
           }
         });
       }
@@ -66,7 +82,8 @@ wss.on('connection', (socket) => {
       // Handle other game state updates based on answers
       wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ type: 'updateGameState', /* updated game state */ }));
+          let msg = "none";
+          client.send(JSON.stringify({ type: 'updateGameState', msg, playerName }));
         }
       });
     });
