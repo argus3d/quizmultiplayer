@@ -362,7 +362,9 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 
 		var txt = new createjs.Text("...", "22px Arial Black", "#ffffff");
 		txt.textAlign = "center";
-		txt.x = 100;
+		txt.x = -10;
+		txt.y = 160;
+		txt.lineWidth = 100;
 		txt.name = "apelido";
 		cont_carro[i].addChild(txt);
 
@@ -493,7 +495,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 			for (const playerId in carNames) {
 				if (carNames.hasOwnProperty(playerId)) {
 					const _nome = carNames[playerId];
-					console.log(`nome:`,_nome);
+					console.log(`nome:`, _nome);
 					var _txt = cont_carro[i].getChildByName("apelido");
 					if (_txt) {
 						_txt.text = _nome;
@@ -504,11 +506,12 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		}
 		if (data.type === 'updateCarPositions') {
 			const carPositions = data.carPositions;
-			const updatedPlayerName = data.playerName;
+			console.log(carPositions)
+			//const updatedPlayerName = data.playerName;
 
 			// Modify this line
 			// Update the positions of the cars based on the received data
-			console.log(`Player ${updatedPlayerName} has a new position`);
+			//console.log(`Player ${updatedPlayerName} has a new position`);
 			let i = 0;
 			if (inicio1) {
 				for (const playerId in carPositions) {

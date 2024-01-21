@@ -47,26 +47,14 @@ wss.on('connection', (socket) => {
       const data = JSON.parse(message);
       const correctAnswer = data.correct;
       const playerName = data.playerName;
-      console.log("correctAnswer", playerId, correctAnswer)
+      console.log("message", playerId, correctAnswer)
       if (correctAnswer == "inicio") {
         console.log(playerName);
         nomes[playerId] = playerName;
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({ type: 'updateNames', nomes }));
-          }
-        });
-        return;
-
-      }
-      if (correctAnswer) {
-        // Update car position for the player who answered correctly
-        carPositions[playerId] += 150;
-
-        // Broadcast updated car positions to all players
-        wss.clients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ type: 'updateCarPositions', carPositions, playerName, nomes }));
+            return;
           }
         });
       }
@@ -75,9 +63,22 @@ wss.on('connection', (socket) => {
           if (client.readyState === WebSocket.OPEN) {
             let msg = "fim";
             client.send(JSON.stringify({ type: 'updateGameState', msg, playerName }));
+            return;
           }
         });
       }
+      if (correctAnswer) {
+        // Update car position for the player who answered correctly
+        carPositions[playerId] += 150;
+
+        // Broadcast updated car positions to all players
+        wss.clients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type: 'updateCarPositions', carPositions}));
+          }
+        });
+      }
+     
 
       // Handle other game state updates based on answers
       wss.clients.forEach((client) => {
