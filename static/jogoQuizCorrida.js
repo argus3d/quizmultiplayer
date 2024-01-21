@@ -505,7 +505,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 			}
 		}
 		if (data.type === 'updateCarPositions') {
-			const carPositions = data.carPositions;
+			const carPositions = data.newPos;
 			console.log(carPositions)
 			//const updatedPlayerName = data.playerName;
 
@@ -516,9 +516,9 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 			if (inicio1) {
 				for (const playerId in carPositions) {
 					if (carPositions.hasOwnProperty(playerId)) {
-						const position = carPositions[playerId];
+						let position = carPositions[playerId];
 						console.log(`Player ${playerId} has position ${position}`);
-						createjs.Tween.get(cont_carro[i]).to({ x: position }, 500, createjs.Ease.quadOut);
+						createjs.Tween.get(cont_carro[i]).to({ x: cont_carro[i].x+position }, 500, createjs.Ease.quadOut);
 						i++;
 					}
 				}

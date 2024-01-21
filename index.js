@@ -69,12 +69,17 @@ wss.on('connection', (socket) => {
       }
       if (correctAnswer) {
         // Update car position for the player who answered correctly
-        carPositions[playerId] += 150;
+        let newPos = {
+          1: 0,
+          2: 0,
+          3: 0
+        };
+        newPos[playerId] += 150;
 
         // Broadcast updated car positions to all players
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ type: 'updateCarPositions', carPositions}));
+            client.send(JSON.stringify({ type: 'updateCarPositions', newPos}));
           }
         });
       }
