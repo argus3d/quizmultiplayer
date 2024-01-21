@@ -4,6 +4,7 @@
 <head>
 	<meta charset="utf-8" />
 	<title>EF_2_MAT_L2_U4_02_OD2</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 	<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
 	<script src="./jogoQuizCorrida.js"></script>
@@ -36,6 +37,7 @@
 	<div id="tela2" class="tela">
 		<canvas id="od2" width="1280" height="720" style="width: 100%;"></canvas>
 	</div>
+	
 
 
 
@@ -321,6 +323,35 @@
 
 	</script>
 
+	<script type="text/javascript">
+		var $divCanvas = $('#tela2');
+		retornaOrientacaoVideo($divCanvas);
+		function resizeGame() {
+			retornaOrientacaoVideo($divCanvas);
+		}
+		window.addEventListener('resize', resizeGame, false);
+		window.addEventListener('orientationchange', resizeGame, false);
+
+		function retornaOrientacaoVideo(_this) {
+			var widthToHeight = 16 / 9;
+			var newWidth = window.innerWidth;
+			var newHeight = window.innerHeight;
+			var newWidthToHeight = newWidth / newHeight;
+			$imgAtual = $(_this);
+
+			if (newWidthToHeight > widthToHeight) {
+				newWidth = newHeight * widthToHeight;
+				$imgAtual.css("marginLeft", (window.innerWidth - newWidth) / 2 + 'px');
+				$imgAtual.css("marginTop", (window.innerHeight - newHeight) / 2 + 'px');
+			} else {
+				newHeight = newWidth / widthToHeight;
+				$imgAtual.css("marginLeft", (window.innerWidth - newWidth) / 2 + 'px');
+				$imgAtual.css("marginTop", (window.innerHeight - newHeight) / 2 + 'px');
+			}
+			$imgAtual.css("width", newWidth + 'px');
+			$imgAtual.css("height", newHeight + 'px');
+		}
+	</script>
 </body>
 
 </html>
