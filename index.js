@@ -1,44 +1,33 @@
-// Main Game Server
+const WebSocket = require('ws');
+const http = require('http');
 const express = require('express');
-const io = require('socket.io')(3000);
-var path = require('path');
-
-let scores = {};
-
+const path = require('path');
 
 const app = express();
-app.engine("html", require("ejs").renderFile);
-app.set("view engine", "html");
-app.use("/static", express.static("static"));
-app.set("views", path.join(__dirname, "/views"));
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
 
-app.get('/servidor', (req, res) => {
+// Serve the HTML file
+app.use('/', express.static(path.join(__dirname, 'static')));
 
-    console.log("inicio servidor");
-    
-    var _msg = { trilha: "", origem: "", mensagem: "AQUI!" };
-    res.render('login', { msg: _msg });
-});
-app.listen(80, function () {
-    console.log('Server started on port 80');
-});
+// WebSocket connection handling
+wss.on('connection', (ws) => {
+  console.log('New client connected');
 
-
-io.on('connection', (socket) => {
-  console.log('Main game connected');
-
-  // Transmit questions to clients
-  socket.on('question', (question) => {
-    io.emit('question', question);
+  // Message handling
+  ws.on('message', (message) => {
+    // Broadcast the message to all connected clients
+    const receivedMessage = message.toString('utf-8');
+    console.log(receivedMessage)
+    wss.clients.forEach((client) => {
+      if (client !== ws && client.readyState === WebSocket.OPEN) {
+        client.send(receivedMessage);
+      }
+    });
   });
+});
 
-  // Receive answers from clients
-  socket.on('answer', (data) => {
-    const { clientId, answer } = data;
-    // Update scores based on correct or incorrect answers
-    // ...
-
-    // Transmit updated scores to all clients
-    io.emit('updateScores', scores);
-  });
+const PORT = 3000;
+server.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
 });
