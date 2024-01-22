@@ -37,7 +37,7 @@
 	<div id="tela2" class="tela">
 		<canvas id="od2" width="1280" height="720" style="width: 100%;"></canvas>
 	</div>
-	
+
 
 
 
@@ -59,82 +59,135 @@
 				false /* mostraTutorial */
 			);
 		}
-
+		function shuffle(a) {
+		var j, x, i;
+		for (i = a.length; i; i -= 1) {
+			j = Math.floor(Math.random() * i);
+			x = a[i - 1];
+			a[i - 1] = a[j];
+			a[j] = x;
+		}
+	}
 		var curiosidades = [
 			{
-				pergunta: 'Quantos planetas fazem parte do nosso sistema solar?',
-				opcoes: ['7', '8', '9', '10', '11'],
-				certa: '8'
+				pergunta: 'Qual é o animal considerado o mais veloz do mundo?',
+				opcoes: ['Leão', 'Guepardo', 'Pombo', 'Elefante', 'Tigre'],
+				certa: 'Pombo'
 			},
 			{
-				pergunta: 'Qual é o animal terrestre mais rápido?',
-				opcoes: ['Leão', 'Guepardo', 'Elefante', 'Cavalo', 'Tigre'],
-				certa: 'Guepardo'
+				pergunta: 'Quem é o autor(a) do livro "A Pequena Sereia"?',
+				opcoes: ['Hans Christian Andersen', 'C.S. Lewis', 'J.K. Rowling', 'Roald Dahl', 'Lewis Carroll'],
+				certa: 'Hans Christian Andersen'
 			},
 			{
-				pergunta: 'Qual é a capital do Brasil?',
-				opcoes: ['São Paulo', 'Rio de Janeiro', 'Brasília', 'Belo Horizonte', 'Salvador'],
-				certa: 'Brasília'
+				pergunta: 'O que os girassóis seguem durante o dia?',
+				opcoes: ['Lua', 'Sol', 'Estrelas', 'Vento', 'Água'],
+				certa: 'Sol'
 			},
 			{
-				pergunta: 'Quantos dedos tem uma mão?',
+				pergunta: 'Quais são as cores primárias?',
+				opcoes: ['Vermelho, Verde e Azul', 'Amarelo, Azul e Vermelho', 'Verde, Roxo e Amarelo', 'Vermelho, Preto e Branco', 'Azul, Laranja e Verde'],
+				certa: 'Amarelo, Azul e Vermelho'
+			},
+			{
+				pergunta: 'Qual é a capital dos Estados Unidos?',
+				opcoes: ['Nova York', 'Los Angeles', 'Washington, D.C.', 'Chicago', 'Miami'],
+				certa: 'Washington, D.C.'
+			},
+			{
+				pergunta: 'Quantos anos tem um século?',
+				opcoes: ['50', '75', '100', '125', '150'],
+				certa: '100'
+			},
+			{
+				pergunta: 'Qual é o maior rio do mundo?',
+				opcoes: ['Amazonas', 'Nilo', 'Mississippi', 'Yangtzé', 'Danúbio'],
+				certa: 'Amazonas'
+			},
+			{
+				pergunta: 'Qual é o número que vem após o 9?',
+				opcoes: ['10', '11', '12', '13', '14'],
+				certa: '10'
+			},
+			{
+				pergunta: 'O que é um ano bissexto?',
+				opcoes: ['Ano com 366 dias', 'Ano com 365 dias', 'Ano com 360 dias', 'Ano com 354 dias', 'Ano com 370 dias'],
+				certa: 'Ano com 366 dias'
+			},
+			{
+				pergunta: 'Qual é o animal que representa o zodíaco chinês em 2022?',
+				opcoes: ['Dragão', 'Rato', 'Cabra', 'Tigre', 'Cavalo'],
+				certa: 'Tigre'
+			},
+			{
+				pergunta: 'Quem descobriu a América em 1492?',
+				opcoes: ['Christopher Columbus', 'Fernão Mendes Pinto', 'Marco Polo', 'Vasco da Gama', 'Amerigo Vespucci'],
+				certa: 'Christopher Columbus'
+			},
+			{
+				pergunta: 'Quantos lados tem um triângulo?',
 				opcoes: ['3', '4', '5', '6', '7'],
-				certa: '5'
+				certa: '3'
 			},
 			{
-				pergunta: 'O que a lagarta vira depois de se transformar?',
-				opcoes: ['Borboleta', 'Formiga', 'Abelha', 'Libélula', 'Joaninha'],
-				certa: 'Borboleta'
+				pergunta: 'O que a abelha produz?',
+				opcoes: ['Mel', 'Leite', 'Óleo', 'Seda', 'Chocolate'],
+				certa: 'Mel'
 			},
 			{
-				pergunta: 'Qual é a cor do céu durante o dia?',
-				opcoes: ['Azul', 'Verde', 'Amarelo', 'Vermelho', 'Roxo'],
-				certa: 'Azul'
+				pergunta: 'Qual é a estação do ano em que neva?',
+				opcoes: ['Primavera', 'Verão', 'Outono', 'Inverno', 'Monção'],
+				certa: 'Inverno'
 			},
 			{
-				pergunta: 'Qual é o maior planeta do nosso sistema solar?',
-				opcoes: ['Terra', 'Vênus', 'Júpiter', 'Marte', 'Saturno'],
-				certa: 'Júpiter'
+				pergunta: 'Quem foi o primeiro ser humano a viajar para o espaço?',
+				opcoes: ['Neil Armstrong', 'Buzz Aldrin', 'Yuri Gagarin', 'Laika', 'Alan Shepard'],
+				certa: 'Yuri Gagarin'
 			},
 			{
-				pergunta: 'O que os vegetais precisam para crescer?',
-				opcoes: ['Água', 'Ar', 'Luz do Sol', 'Todos os anteriores', 'Nenhum dos anteriores'],
-				certa: 'Todos os anteriores'
+				pergunta: 'O que é um herbívoro?',
+				opcoes: ['Animal que come carne', 'Animal que come plantas', 'Animal que come ambos', 'Animal que come insetos', 'Animal que não come'],
+				certa: 'Animal que come plantas'
 			},
 			{
-				pergunta: 'Quem escreveu as histórias de Harry Potter?',
-				opcoes: ['J.K. Rowling', 'Roald Dahl', 'Enid Blyton', 'C.S. Lewis', 'Lewis Carroll'],
-				certa: 'J.K. Rowling'
+				pergunta: 'Qual é o maior animal marinho?',
+				opcoes: ['Baleia-azul', 'Orca', 'Tubarão', 'Golfinho', 'Baleia-cachalote'],
+				certa: 'Baleia-azul'
 			},
 			{
-				pergunta: 'O que dá cor às folhas das árvores?',
-				opcoes: ['Clorofila', 'Cafeína', 'Melanina', 'Hemoglobina', 'Caroteno'],
-				certa: 'Clorofila'
+				pergunta: 'Qual é o número romano para 50?',
+				opcoes: ['XL', 'L', 'XC', 'C', 'D'],
+				certa: 'L'
 			},
 			{
-				pergunta: 'Qual é o maior animal terrestre?',
-				opcoes: ['Elefante', 'Girafa', 'Rinoceronte', 'Hipopótamo', 'Leão'],
-				certa: 'Elefante'
+				pergunta: 'O que é um anfíbio?',
+				opcoes: ['Animal que voa', 'Animal que nada', 'Animal que vive na água e na terra', 'Animal que rasteja', 'Animal que pula'],
+				certa: 'Animal que vive na água e na terra'
 			},
 			{
-				pergunta: 'Qual é o número zero na numeração romana?',
-				opcoes: ['N', 'I', 'O', 'Z', 'M'],
-				certa: 'N'
+				pergunta: 'Quantos meses têm 28 dias?',
+				opcoes: ['1', '6', '9', '12', 'Todos'],
+				certa: 'Todos'
 			},
 			{
-				pergunta: 'Quantos segundos há em um minuto?',
-				opcoes: ['30', '45', '60', '75', '90'],
-				certa: '60'
+				pergunta: 'Qual é a comida favorita dos pandas?',
+				opcoes: ['Bambu', 'Peixe', 'Mel', 'Carne', 'Banana'],
+				certa: 'Bambu'
 			},
 			{
-				pergunta: 'O que é um tsunami?',
-				opcoes: ['Vulcão submarino', 'Terremoto no oceano', 'Furacão', 'Tornado', 'Chuva intensa'],
-				certa: 'Terremoto no oceano'
+				pergunta: 'Qual é o maior órgão do corpo humano?',
+				opcoes: ['Cérebro', 'Coração', 'Pulmões', 'Fígado', 'Pele'],
+				certa: 'Pele'
 			},
 			{
-				pergunta: 'Qual é a capital da França?',
-				opcoes: ['Berlim', 'Roma', 'Paris', 'Madrid', 'Londres'],
-				certa: 'Paris'
+				pergunta: 'O que é uma aranha?',
+				opcoes: ['Inseto', 'Aracnídeo', 'Réptil', 'Anfíbio', 'Mamífero'],
+				certa: 'Aracnídeo'
+			},
+			{
+				pergunta: 'Qual é o metal mais precioso?',
+				opcoes: ['Ouro', 'Prata', 'Bronze', 'Cobre', 'Ferro'],
+				certa: 'Ouro'
 			},
 			{
 				pergunta: 'Qual é o planeta conhecido como "Planeta Vermelho"?',
@@ -142,24 +195,79 @@
 				certa: 'Marte'
 			},
 			{
-				pergunta: 'Qual é a estação do ano em que as folhas das árvores caem?',
-				opcoes: ['Primavera', 'Verão', 'Outono', 'Inverno', 'Monção'],
-				certa: 'Outono'
+				pergunta: 'O que é um vulcão?',
+				opcoes: ['Montanha de gelo', 'Montanha de fogo', 'Montanha de pedra', 'Montanha de água', 'Montanha de areia'],
+				certa: 'Montanha de fogo'
 			},
 			{
-				pergunta: 'Qual é o maior oceano do mundo?',
-				opcoes: ['Atlântico', 'Índico', 'Ártico', 'Antártico', 'Pacífico'],
-				certa: 'Pacífico'
+				pergunta: 'Qual é o maior animal terrestre?',
+				opcoes: ['Elefante', 'Girafa', 'Rinoceronte', 'Hipopótamo', 'Leão'],
+				certa: 'Elefante'
 			},
 			{
-				pergunta: 'Quem foi o primeiro presidente do Brasil?',
-				opcoes: ['Getúlio Vargas', 'Juscelino Kubitschek', 'Deodoro da Fonseca', 'Tancredo Neves', 'Fernando Collor'],
-				certa: 'Deodoro da Fonseca'
+				pergunta: 'O que é um terremoto?',
+				opcoes: ['Chuva intensa', 'Vulcão submarino', 'Furacão', 'Movimento da Terra', 'Tornado'],
+				certa: 'Movimento da Terra'
 			},
 			{
-				pergunta: 'O que é a Aurora Boreal?',
-				opcoes: ['Chuva de meteoros', 'Eclipse solar', 'Fenômeno atmosférico', 'Erupção vulcânica', 'Tornado'],
-				certa: 'Fenômeno atmosférico'
+				pergunta: 'Qual é o rio mais longo do mundo?',
+				opcoes: ['Amazonas', 'Nilo', 'Mississippi', 'Yangtzé', 'Danúbio'],
+				certa: 'Amazonas'
+			},
+			{
+				pergunta: 'Quem é conhecido como "pai da informática"?',
+				opcoes: ['Alan Turing', 'Steve Jobs', 'Bill Gates', 'Mark Zuckerberg', 'Tim Berners-Lee'],
+				certa: 'Alan Turing'
+			},
+			{
+				pergunta: 'Quantos continentes existem?',
+				opcoes: ['4', '5', '6', '7', '8'],
+				certa: '7'
+			},
+			{
+				pergunta: 'O que é um eclipse solar?',
+				opcoes: ['Quando a Lua passa entre a Terra e o Sol', 'Quando a Terra passa entre a Lua e o Sol', 'Quando o Sol passa entre a Terra e a Lua', 'Quando a Lua fica vermelha', 'Quando a Lua desaparece'],
+				certa: 'Quando a Lua passa entre a Terra e o Sol'
+			},
+			{
+				pergunta: 'Quem pintou a Mona Lisa?',
+				opcoes: ['Vincent van Gogh', 'Leonardo da Vinci', 'Pablo Picasso', 'Claude Monet', 'Michelangelo'],
+				certa: 'Leonardo da Vinci'
+			},
+			{
+				pergunta: 'Qual é o menor planeta do nosso sistema solar?',
+				opcoes: ['Vênus', 'Mercúrio', 'Marte', 'Plutão', 'Urano'],
+				certa: 'Mercúrio'
+			},
+			{
+				pergunta: 'Qual é a moeda oficial do Japão?',
+				opcoes: ['Dólar', 'Euro', 'Peso', 'Iene', 'Libra esterlina'],
+				certa: 'Iene'
+			},
+			{
+				pergunta: 'Qual é a flor associada ao romantismo?',
+				opcoes: ['Rosa', 'Margarida', 'Lírio', 'Orquídea', 'Girassol'],
+				certa: 'Rosa'
+			},
+			{
+				pergunta: 'O que é a Grande Muralha da China?',
+				opcoes: ['Um palácio', 'Uma ponte', 'Uma muralha defensiva', 'Um templo', 'Um mercado'],
+				certa: 'Uma muralha defensiva'
+			},
+			{
+				pergunta: 'Quem escreveu "Dom Quixote"?',
+				opcoes: ['William Shakespeare', 'Charles Dickens', 'Miguel de Cervantes', 'Jane Austen', 'Fyodor Dostoevsky'],
+				certa: 'Miguel de Cervantes'
+			},
+			{
+				pergunta: 'Qual é a linguagem de programação usada para criar páginas web?',
+				opcoes: ['Python', 'Java', 'C++', 'HTML', 'Ruby'],
+				certa: 'HTML'
+			},
+			{
+				pergunta: 'O que é a Camada de Ozônio?',
+				opcoes: ['Um tipo de nuvem', 'Uma barreira de vento', 'Um gás tóxico', 'Uma camada atmosférica', 'Um tipo de chuva'],
+				certa: 'Uma camada atmosférica'
 			}
 		];
 		var problemas = [
@@ -319,6 +427,7 @@
 			}
 			return elementosSorteados;
 		}
+		shuffle(curiosidades);
 		var itens = sortearElementos(curiosidades, 6);
 
 	</script>
