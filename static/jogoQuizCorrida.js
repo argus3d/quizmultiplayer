@@ -243,6 +243,9 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 			tente.y = 720;
 			createjs.Tween.get(tente).wait(4000).to({ y: 150 }, 750, createjs.Ease.quadOut);
 		}
+		setTimeout(function () {
+			reseta();
+		}, 3000)
 
 	}
 	function shuffle(a) {
