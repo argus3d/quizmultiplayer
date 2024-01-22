@@ -74,7 +74,7 @@ wss.on('connection', (socket) => {
           2: 0,
           3: 0
         };
-        newPos[playerId] += 100;
+        newPos[playerId] += 70;
 
         // Broadcast updated car positions to all players
         wss.clients.forEach((client) => {
