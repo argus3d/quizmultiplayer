@@ -31,7 +31,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		chegada,
 		tutorial,
 		n_resp = 6,
-		check,
+		jogoGanho=false,
 		tempoPergunta = 5000,
 		tempoPista = 3000,
 		tempoDelay = 3000,
@@ -215,6 +215,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 			Fim();
 			inicio1 = false;
 			if (i_acertos >= pontosNecessarios) {
+				jogoGanho=true;
 				const message = JSON.stringify({ type: 'answer', correct: "fim", playerName });
 				socket.send(message);
 			}
@@ -233,19 +234,14 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		for (i = 0; i < cont_carro.length; i++) {
 			createjs.Tween.get(cont_carro[i], { override: true }).to({ x: cont_carro[i].x + 1380 }, 4000, createjs.Ease.quadIn);
 		}
-		if (i_acertos >= pontosNecessarios) {
-			sons[2].play();
+		if (jogoGanho) {
 			positivo.visible = true;
 			positivo.y = 720;
 			createjs.Tween.get(positivo).wait(4000).to({ y: 150 }, 750, createjs.Ease.quadOut);
-			sons[2].play();
-
-
 		} else {
 			tente.visible = true;
 			tente.y = 720;
 			createjs.Tween.get(tente).wait(4000).to({ y: 150 }, 750, createjs.Ease.quadOut);
-			sons[3].play();
 		}
 
 	}
@@ -372,7 +368,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 	}
 	var fundo_esc = new createjs.Bitmap(caminho + "escolha.png");
 	fundo_esc.image.onload = function () { };
-	telaEscolha.addChild(fundo_esc);
+	//telaEscolha.addChild(fundo_esc);
 
 	tutorial = new createjs.Bitmap(caminho + "tutorial.png");
 	tutorial.image.onload = function () { };

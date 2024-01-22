@@ -9,6 +9,14 @@
 	<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
 	<script src="./jogoQuizCorrida.js"></script>
 	<style>
+		@font-face {
+			font-family: 'VAG Rounded BT';
+			src: url('./resources/fonts/vagron-webfont.eot');
+			src: url('./resources/fonts/vagron-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/vagron-webfont.woff2') format('woff2'), url('../fonts/vagron-webfont.woff') format('woff'), url('../fonts/vagron-webfont.ttf') format('truetype'), url('../fonts/vagron-webfont.svg#vagrounded_btregular') format('svg');
+			font-weight: 700;
+			font-style: normal;
+		}
+
 		.tela {
 			width: 100vw;
 			height: 100vh;
@@ -16,29 +24,62 @@
 			align-items: center;
 			display: flex;
 		}
+
+		#tela1 {
+			width: 100vw;
+			height: 100vh;
+			justify-content: center;
+			align-items: center;
+			display: flex;
+		}
+
+		html{
+			font-family: 'VAG Rounded BT', Helvetica, Arial, sans-serif;
+		}
+
+		body {
+			background-color: lightblue;
+			background: url(resources/image/fundo.jpg) no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			margin: 0;
+			top: 0;
+			left: 0;
+			position: absolute;
+			float: left;
+			touch-action: none;
+			-ms-touch-action: none;
+			
+		}
 	</style>
 </head>
 
 <body id="EF_2_MAT_L2_U4_02_OD2" class="od ef1" lang="pt-BR">
 	<section class="section" id="tela1">
-		<div class="container">
-			<h1 class="title">
-				Seu nome:
-			</h1>
-			<p class="subtitle">
-				<input id="playerName" class="input is-primary" type="text" placeholder="Nome">
-			</p>
-
-			<p class="subtitle">
-				<button class="button" onclick="startGame()">INICIAR</button>
-			</p>
+		<div class="field">
+			<label class="label">Seu nome:</label>
+			<div class="control">
+				<input id="playerName" class="input is-rounded" type="text" placeholder="Nome">
+			</div>
+			<div class="control">
+				<a class="button is-rounded" onclick="startGame()">
+					INICIAR
+				</a>
+			</div>
 		</div>
 	</section>
-	<div id="tela2" class="tela">
+	<div id="tela2" class="tela" style="display: none">
 		<canvas id="od2" width="1280" height="720" style="width: 100%;"></canvas>
 	</div>
 
-
+	<div style="position: absolute;bottom:50px;right:50px">
+		<span class="tag is-rounded">*Jogo experimental (SAE Digital)</span>
+	</div>
 
 
 	<script>
@@ -55,24 +96,24 @@
 				false, /* ativaTempo */
 				5000, /* _tempoPergunta */
 				30, /* tamanhoTextoBotao */
-				7, /* pontosNecessarios */
+				8, /* pontosNecessarios */
 				false /* mostraTutorial */
 			);
 		}
 		function shuffle(a) {
-		var j, x, i;
-		for (i = a.length; i; i -= 1) {
-			j = Math.floor(Math.random() * i);
-			x = a[i - 1];
-			a[i - 1] = a[j];
-			a[j] = x;
+			var j, x, i;
+			for (i = a.length; i; i -= 1) {
+				j = Math.floor(Math.random() * i);
+				x = a[i - 1];
+				a[i - 1] = a[j];
+				a[j] = x;
+			}
 		}
-	}
 		var curiosidades = [
 			{
 				pergunta: 'Qual é o animal considerado o mais veloz do mundo?',
-				opcoes: ['Leão', 'Guepardo', 'Pombo', 'Elefante', 'Tigre'],
-				certa: 'Pombo'
+				opcoes: ['Leão', 'Guepardo', 'Falcão-Peregrino', 'Elefante', 'Tigre'],
+				certa: 'Falcão-Peregrino'
 			},
 			{
 				pergunta: 'Quem é o autor(a) do livro "A Pequena Sereia"?',
@@ -428,7 +469,7 @@
 			return elementosSorteados;
 		}
 		shuffle(curiosidades);
-		var itens = sortearElementos(curiosidades, 10);
+		var itens = sortearElementos(curiosidades, 15);
 
 	</script>
 
