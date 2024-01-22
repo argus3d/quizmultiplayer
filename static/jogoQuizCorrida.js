@@ -245,7 +245,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		}
 		setTimeout(function () {
 			reseta();
-		}, 3000)
+		}, 7000)
 
 	}
 	function shuffle(a) {
