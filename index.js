@@ -47,9 +47,9 @@ wss.on('connection', (socket) => {
       const data = JSON.parse(message);
       const correctAnswer = data.correct;
       const playerName = data.playerName;
+      const playerId = data.playerId;
       console.log("message", playerId, correctAnswer)
       if (correctAnswer == "inicio") {
-        console.log(playerName);
         nomes[playerId] = playerName;
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
@@ -62,7 +62,7 @@ wss.on('connection', (socket) => {
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
             let msg = "fim";
-            client.send(JSON.stringify({ type: 'updateGameState', msg, playerName }));
+            client.send(JSON.stringify({ type: 'updateGameState', msg, playerId }));
             return;
           }
         });

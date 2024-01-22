@@ -18,7 +18,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		i_erros = 0,
 		i_acertos = 0,
 		edgeOffset = 80,
-		btcontinuar,
+		i_jogador,
 		score = 0,
 		carros = [],
 		carrosBt = [],
@@ -203,7 +203,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 	}
 	function limpaSegue() {
 
-		const message = JSON.stringify({ type: 'answer', correct: acerto, playerName });
+		const message = JSON.stringify({ type: 'answer', correct: acerto, playerName, playerId:i_jogador });
 		socket.send(message);
 		acerto = false;
 
@@ -216,7 +216,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 			inicio1 = false;
 			if (i_acertos >= pontosNecessarios) {
 				jogoGanho=true;
-				const message = JSON.stringify({ type: 'answer', correct: "fim", playerName });
+				const message = JSON.stringify({ type: 'answer', correct: "fim", playerName, playerId:i_jogador });
 				socket.send(message);
 			}
 
@@ -234,7 +234,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		for (i = 0; i < cont_carro.length; i++) {
 			createjs.Tween.get(cont_carro[i], { override: true }).to({ x: cont_carro[i].x + 1380 }, 4000, createjs.Ease.quadIn);
 		}
-		if (jogoGanho) {
+		if (i_acertos >= pontosNecessarios) {
 			positivo.visible = true;
 			positivo.y = 720;
 			createjs.Tween.get(positivo).wait(4000).to({ y: 150 }, 750, createjs.Ease.quadOut);
@@ -439,9 +439,10 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		var podeiniciar = false;
 		if (data.type === 'init') {
 			const playerId = data.playerId;
+			i_jogador=playerId;
 			const carPositions = data.carPositions;
 			const playerNames = data.playerNames;
-			console.log(`Player ${playerId} (You) has position ${carPositions[playerId]}`);
+			console.log(`Player ${i_jogador} (You) has position ${carPositions[playerId]}`);
 			for (const otherPlayerId in playerNames) {
 				console.log(`Player ${otherPlayerId} is in the game: ${playerNames[otherPlayerId]}`);
 			}
