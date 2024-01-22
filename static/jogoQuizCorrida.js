@@ -18,7 +18,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		i_erros = 0,
 		i_acertos = 0,
 		edgeOffset = 80,
-		i_jogador,
+		btcontinuar,
 		score = 0,
 		carros = [],
 		carrosBt = [],
@@ -31,7 +31,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		chegada,
 		tutorial,
 		n_resp = 6,
-		jogoGanho=false,
+		check,
 		tempoPergunta = 5000,
 		tempoPista = 3000,
 		tempoDelay = 3000,
@@ -203,7 +203,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 	}
 	function limpaSegue() {
 
-		const message = JSON.stringify({ type: 'answer', correct: acerto, playerName, playerId:i_jogador });
+		const message = JSON.stringify({ type: 'answer', correct: acerto, playerName });
 		socket.send(message);
 		acerto = false;
 
@@ -215,8 +215,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 			Fim();
 			inicio1 = false;
 			if (i_acertos >= pontosNecessarios) {
-				jogoGanho=true;
-				const message = JSON.stringify({ type: 'answer', correct: "fim", playerName, playerId:i_jogador });
+				const message = JSON.stringify({ type: 'answer', correct: "fim", playerName });
 				socket.send(message);
 			}
 
@@ -238,6 +237,7 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 			positivo.visible = true;
 			positivo.y = 720;
 			createjs.Tween.get(positivo).wait(4000).to({ y: 150 }, 750, createjs.Ease.quadOut);
+
 		} else {
 			tente.visible = true;
 			tente.y = 720;
@@ -439,10 +439,9 @@ var AppCorrida = function (canvasID, _itens, tamanhoBt, margemBt, margemPergunta
 		var podeiniciar = false;
 		if (data.type === 'init') {
 			const playerId = data.playerId;
-			i_jogador=playerId;
 			const carPositions = data.carPositions;
 			const playerNames = data.playerNames;
-			console.log(`Player ${i_jogador} (You) has position ${carPositions[playerId]}`);
+			console.log(`Player ${playerId} (You) has position ${carPositions[playerId]}`);
 			for (const otherPlayerId in playerNames) {
 				console.log(`Player ${otherPlayerId} is in the game: ${playerNames[otherPlayerId]}`);
 			}
